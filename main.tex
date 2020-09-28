@@ -1,0 +1,198 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+
+  %-------------------------------------------------------------------------------
+\newcommand{\mrm}{Marcelo de Rezende Martins} % Prénom et Nom Auteur 1
+\newcommand{\magerosa}{Marco Aurélio Gerosa} % Prénom et Nom Auteur 1 (version courte pied de page)
+
+\title{CoNCRA: A Convolutional Neural Network Code Retrieval Approach} %% that will be typeset on the
+\subtitle{XXXIV Brazilian Symposium on Software Engineering} %% title page.
+\author[\mrm \ \textit{et al.}]{\mrm\inst{1}, \magerosa\inst{2}}
+\date[23/10/2020]{October 23, 2020}
+\institute{
+ \par \inst{1} Institute for Technological Research (IPT)
+ \par \inst{2} Northern Arizona University (NAU)
+ }
+  
+
+%-------------------------------------------------------------------------------
+  
+  
+ \makeatletter
+\setbeamertemplate{title page}{%
+  % This is slide 0
+  \setcounter{framenumber}{0}
+
+  % Input the university logo
+  \begin{tikzpicture}[
+    remember picture,
+    overlay,
+    xshift=0.5\fibeamer@lengths@logowidth,
+    yshift=0.5\fibeamer@lengths@logoheight
+  ]
+    \node at (0,0) {
+      \fibeamer@includeLogo[
+        width=\fibeamer@lengths@logowidth,
+        height=\fibeamer@lengths@logoheight
+      ]};
+  \end{tikzpicture}
+
+  % Input the title
+  \usebeamerfont{title}%
+  \usebeamercolor[fg]{title}%
+  \begin{minipage}[b][2\baselineskip][b]{\textwidth}%
+    \raggedright\inserttitle
+  \end{minipage}
+  \vskip-.5\baselineskip
+
+  % Input the dashed line
+  \begin{pgfpicture}
+    \pgfsetlinewidth{2pt}
+    \pgfsetroundcap
+    \pgfsetdash{{0pt}{4pt}}{0cm}
+
+    \pgfpathmoveto{\pgfpoint{0mm}{0mm}}
+    \pgfpathlineto{\pgfpoint{\textwidth}{0mm}}
+
+    \pgfusepath{stroke}
+  \end{pgfpicture}
+  \vfill
+  % Input the subtitle
+  \usebeamerfont{subtitle}%
+  \usebeamercolor[fg]{subtitle}%
+  \begin{minipage}{\textwidth}
+    \raggedright%
+    \insertsubtitle%
+  \end{minipage}\vskip.25\baselineskip
+
+  % Input the author's name
+  \usebeamerfont{author}%
+  \usebeamercolor[fg]{author}%
+  \begin{minipage}{\textwidth}
+    \raggedright%
+    \insertauthor\newline%
+    \par \insertdate\newline%
+    \tiny\insertinstitute%
+    
+  \end{minipage}%
+}
+\makeatother
+  
+
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{subcaption} 
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+  \AtBeginSection[]{% Print an outline at the beginning of sections
+    \begin{frame}<beamer>
+      \frametitle{Table of contents}
+      \tableofcontents[currentsection]
+    \end{frame}}
+
+  
+    \section{Introduction}
+    
+    \begin{frame}{Code Retrieval}
+      
+      "Retrieve code snippets from a code corpus that most closely match a developer's intent, which is expressed in natural language" \cite{cambronero-deep-code-search-2019}\\
+    \end{frame}
+
+    
+
+    \section{Background}
+    
+    \subsection{Encoder}
+    \begin{frame}{Encoder}
+      
+      \begin{definition}
+        $F: X \to E$, where $X$ its a input set and $E \subset \mathbb{R}^{d}$
+      \end{definition}
+    \end{frame}
+
+    \subsection{Joint embedding}
+    \begin{frame}{Joint embedding}
+      \begin{figure}[h]
+          \includegraphics[width=1\textwidth]{resources/joint_embedding-article.pdf}
+          \caption{Illustration of joint embedding technique.}
+          
+          \label{fig:joint-embedding}
+        \end{figure}
+    \end{frame}
+
+    \section{Methodology}
+    
+    \begin{frame}{Convolutional neural network}
+      \begin{figure}[h]
+          \includegraphics[width=0.85\textwidth]{resources/cnn-steps-word-embedding-article.pdf}
+          \caption{Illustration of convolutional neural network steps.}
+          
+          \label{fig:convolutional-neural-network-steps}
+        \end{figure}
+    \end{frame}
+    
+    \section{Experiments}
+    
+    \begin{frame}{Evaluation}
+      \begin{figure}
+          \begin{subfigure}[h]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{resources/cnn-architecture-proposal.pdf}
+            \caption{\textit{Our architecture}}
+            \label{fig:our-architecture}
+          \end{subfigure}
+          \hspace{1em}%
+          \begin{subfigure}[h]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{resources/unif-architecture.pdf}
+            \caption{SOTA architecture}
+            \label{fig:unif-architecture}
+          \end{subfigure}
+          
+          \begin{subfigure}[h]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{resources/embedding-architecture.pdf}
+            \caption{Baseline architecture}
+            \label{fig:baseline-one-architecture}
+          \end{subfigure}
+        \end{figure}
+    \end{frame}
+
+    
+\appendix
+    \begin{frame}[label=bibliography]{Bibliography}
+      
+      \bibliography{main}
+      \bibliographystyle{abbrv}
+    \end{frame}
+
+  
+\end{document}
