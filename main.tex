@@ -9,6 +9,7 @@
 \documentclass{beamer}
 \usetheme[faculty=ped]{fibeamer}
 \usepackage[utf8]{inputenc}
+\usepackage{lastpage}
 \usepackage[
   main=english, %% By using `czech` or `slovak` as the main locale
                 %% instead of `english`, you can typeset the
@@ -35,6 +36,8 @@
  \par \inst{2} Northern Arizona University (NAU)
  }
   
+  \setbeamertemplate{footline}[text line]{%
+  \parbox{\linewidth}{\vspace*{-8pt}SBES 2020\hfill\insertshortauthor\hfill\thepage\hspace{0.05cm}/ \pageref{LastPage}}}
 
 %-------------------------------------------------------------------------------
   
@@ -105,11 +108,13 @@
 \usepackage{booktabs}  % Tables
 \usepackage{tabularx}
 \usepackage{tikz}      % Diagrams
+\usepackage{bm}
 \usetikzlibrary{calc, shapes, backgrounds}
 \usepackage{amsmath, amssymb}
 \usepackage{url}       % `\url`s
 \usepackage{listings}  % Code listings
 \usepackage{subcaption} 
+
 \frenchspacing
 \begin{document}
   \shorthandoff{-}
@@ -164,6 +169,32 @@
     
     \section{Experiments}
     
+    \begin{frame}{Dataset}
+        \begin{table}[!b]
+            {\carlitoTLF % Use monospaced lining figures
+        \begin{tabularx}{\textwidth}{Xrr}
+            & \multicolumn{2}{c}{\textbf{Question}}\\
+            \toprule
+          \textbf{Code snippet} & \textbf{Python} & \textbf{SQL}  \\
+          \toprule
+          
+            $N_{1}$: Single code snippet in the answer description & $85.294$ & $75.637$ \\
+            
+            $N_{2}$: Automatically annotated code snippets & $60.083$ & $41.826$ \\
+            
+            $N_{3}$: Manually annotated code snippets & $2.169$ & $2.056$  \\
+          \bottomrule
+          \textbf{Total} & $\bm{147.546}$ & $\bm{119.519}$\\
+          \bottomrule
+        \end{tabularx}}
+        \caption{Summary of StaQC dataset \cite{yao-2018}.}
+    \label{table:summary-training-data-yao-staqc}
+        \end{table}
+        \begin{tikzpicture}[overlay]
+\draw[red,ultra thick,rounded corners] (7.4,1.6) rectangle (9.0,5.7);
+\end{tikzpicture}
+    \end{frame}
+    
     \begin{frame}{Evaluation}
       \begin{figure}
           \begin{subfigure}[h]{0.45\textwidth}
@@ -185,6 +216,66 @@
           \end{subfigure}
         \end{figure}
     \end{frame}
+    \section{Results}
+    \begin{frame}{Results}
+    
+        \begin{table}[!b]
+\footnotesize
+\begin{tabularx}{\textwidth}{XXXX}
+ \toprule
+ & \textbf{Models} & \textbf{MRR} & \textbf{TOP-1}\\
+ \toprule
+ A1 & Embedding (m = $0.1$) & $0.637$& $0.493 \pm 0.009$\\
+ 
+ \bottomrule
+ 
+ B1 & Unif (m = $0.2$) & $0.675 \pm 0.006$ & $0.539 \pm 0.009$\\
+ 
+ \bottomrule
+ 
+ $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$\\
+ 
+ $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$\\
+ 
+ $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$\\
+ 
+ \bottomrule
+
+ F1 & Shared CNN with BN / F = 1000 & $0.690 \pm 0.008$ & $0.553 \pm 0.015$\\
+ 
+ F2 & Shared CNN with BN / F = 2000 & $0.700 \pm 0.007$ & $0.573 \pm 0.012$\\
+ 
+ F3 & Shared CNN with BN / F = 4000 & $0.701 \pm 0.008$ & $0.577 \pm 0.015$\\
+ 
+\bottomrule
+\end{tabularx}
+\caption{The experimental results of EVAL sample for Embedding, Unif, and our two CNN variations: CNN and Shared CNN. }
+\label{table:resultados}
+\end{table}
+        
+    \end{frame}
+    
+    \begin{frame}{Examples}
+      \begin{figure}[h]
+          \includegraphics[width=0.75\textwidth]{resources/concrete_examples.pdf}
+          \caption{Examples of the output of our tool.}
+          
+          \label{fig:concrete-examples}
+        \end{figure}
+    \end{frame}
+
+
+
+\begin{frame}[c]
+%\frametitle{A first slide}
+
+\begin{center}
+\LARGE Questions?
+\end{center}
+
+\end{frame}
+
+
 
     
 \appendix
